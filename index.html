@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./style.css">
     <script src="./node_modules/@babel/polyfill/dist/polyfill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
     <script src="./script.js"></script>
     <title>Document</title>
 </head>
@@ -17,8 +18,10 @@
     <div id="progress-bar-container2"></div>
 
     <script>
+        const video_length = 2000;
+        let progressBar;
         window.addEventListener('DOMContentLoaded', () => {
-            const progressBar = new ProgressBar({ container: 'progress-bar-container', });
+            progressBar = new ProgressBar({ container: 'progress-bar-container', length: video_length });
         });
     </script>
 </body>

@@ -7,8 +7,12 @@ class ProgressBar {
             barColor: '#22ff88',
             sliderColor: '#44aa44',
             sliderWidth: 90,
-        }
-
+            delayTime: 3000,
+        };
+        
+        this.length = options.length;
+        
+        this.actionDelayTime = options.delayTime || this.defaults.delayTime;
         this.barHeight = options.barHeight || this.defaults.barHeight;
         this.barColor = options.barColor || this.defaults.barColor;
         this.sliderColor = options.sliderColor || this.defaults.sliderColor;
@@ -17,6 +21,8 @@ class ProgressBar {
 
         this.bar = document.createElement('div');
         this.slider = document.createElement('div');
+
+        this.bar.classList.add('progress__bar');
 
         this.mouse = {
             isDown: false,
@@ -33,6 +39,15 @@ class ProgressBar {
 
         this.barBoundaries = this.getBoundaries(this.bar);
         this.sliderBoundaries = this.getBoundaries(this.slider);
+
+        this.secondsPerPixels = this.getSecondsPerPixels();
+        this.pixelsPerSecond = this.getPixelsPerSecond();
+
+        this.secs = 0;
+
+        this.setMarkers();
+
+        window.addEventListener('resize', _.throttle(this.resetBarOnWindowResize.bind(this)), 150, { 'leading': true });
     }
 
     setStyles(options) {
@@ -78,7 +93,6 @@ class ProgressBar {
         }
 
         if (this.mouse.sliderLeftPosition + distance > this.barBoundaries.width - this.sliderBoundaries.width) {
-            console.log('wider');
             return this.setLeftPositionSlider(this.barBoundaries.width - this.sliderBoundaries.width);
         }
         this.setLeftPositionSlider(this.mouse.sliderLeftPosition + distance);
@@ -95,12 +109,88 @@ class ProgressBar {
 
     sliderReleased() {
         this.mouseDown = false;
+
+        const clear = setTimeout(this.actionOnSliderRelease.bind(this), this.actionDelayTime);
+
         window.removeEventListener('mousemove', this.moveSliderHandler);
         window.removeEventListener('mouseup', this.sliderReleasedHandler);
     }
 
     setLeftPositionSlider(position) {
         this.slider.style.left = `${position}px`;
+    }
+
+    setSliderAtPositionInSnds(snds = 234) {
+        const pxs = snds * this.pixelsPerSecond;
+        const start = 0;
+        const end = this.barBoundaries.width - this.sliderBoundaries.width;
+
+        if (pxs >= end) {
+            this.setLeftPositionSlider(end);      
+        } else if (pxs < start) {
+            this.setLeftPositionSlider(0);
+        } else {
+            this.setLeftPositionSlider(pxs);
+        }
+    }
+
+    getPixelsPerSecond() {
+        return this.barBoundaries.width / this.length;
+    }
+
+    getSecondsPerPixels() {
+        return this.length / this.barBoundaries.width;
+    }
+
+    createAndAddMarker(position, tall) {
+        const marker = document.createElement('div');
+        marker.classList.add('vrs-slider-marker');
+        marker.style.left = position * this.pixelsPerSecond + 'px';
+
+        if (tall) {
+            marker.style.height = '30px';
+        }
+
+        this.bar.appendChild(marker);
+    };
+
+    setMarkers() {
+        const oneHourMarkers = this.length / (60 * 60);
+        const tenMinutesMarkers = this.length / (60 * 10);
+
+        // set markers for each hour
+        for (let i = 0; i <= oneHourMarkers; i++) {
+            this.createAndAddMarker(i * 3600, true);
+        }
+
+        // sets markers for each 10 minutes
+        for (let i = 0; i <= tenMinutesMarkers; i++) {
+            this.createAndAddMarker(i * 600);
+        }
+    }
+
+    removeMarkers() {
+        this.bar.querySelectorAll('.vrs-slider-marker').forEach(e => e.remove());
+    }
+
+    resetBarOnWindowResize() {
+        this.barBoundaries = this.getBoundaries(this.bar);
+        this.sliderBoundaries = this.getBoundaries(this.slider);
+
+        this.secondsPerPixels = this.getSecondsPerPixels();
+        this.pixelsPerSecond = this.getPixelsPerSecond();
+
+        this.removeMarkers();
+        this.setMarkers();
+    }
+
+    getTimeAccordingSliderPosition() {
+        return giveStringPxReturnNumber(this.slider.style.left) * this.secondsPerPixels;
+    }
+
+    actionOnSliderRelease(callback = (time) => console.warn('Please set a callback as an action!', time)) {
+        const time = this.getTimeAccordingSliderPosition();
+        callback(time);
     }
 }
 
@@ -128,6 +218,5 @@ const getSecondsReturnTime = (seconds) => {
 
     return `${hours}ч. ${minutes}м. ${secondsLeft}с.`;
 };
-
 
 
