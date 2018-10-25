@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./node_modules/@babel/polyfill/dist/polyfill.min.js"></script>
+    <script src="./script.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="progress-bar-container"></div>
+    <div id="progress-bar-container1"></div>
+    <div id="progress-bar-container2"></div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const progressBar = new ProgressBar({ container: 'progress-bar-container', });
+        });
+    </script>
+</body>
+
+</html>

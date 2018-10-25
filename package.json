@@ -1,0 +1,27 @@
+{
+  "name": "progress-bar",
+  "version": "1.0.0",
+  "description": "progress-bar control for video preview system",
+  "main": "script.js",
+  "scripts": {
+    "start": "live-server",
+    "build": "npx babel script.js --out-dir dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": " nope"
+  },
+  "keywords": [
+    "experiments"
+  ],
+  "author": "sportal dev team",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.0.0"
+  }
+}
