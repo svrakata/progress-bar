@@ -100,8 +100,6 @@ class ProgressBar {
         this.mouse.isDown = true;
         this.mouse.lastPosition = e.clientX;
         this.mouse.sliderLeftPosition = giveStringPxReturnNumber(this.slider.el.style.left);
-        console.log(this.mouse.sliderLeftPosition);
-        console.log(this.slider.el.getBoundingClientRect());
         window.addEventListener('mousemove', this.slider.moveHandler);
         window.addEventListener('mouseup', this.slider.releaseHandler);
     }
