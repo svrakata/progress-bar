@@ -1,8 +1,10 @@
 #progress-bar-container {
-    position: relative;
+    padding: 10px;
+    border: 2px solid silver;
 }
 
 .progress__bar {
+    position: relative;
     border-top: 1px solid rgb(33, 68, 33);
 }
 
@@ -14,7 +16,11 @@
     position: relative;
 }
 
-.vrs-slider-marker {
+.progress__duration {
+
+}
+
+.progress__marker {
     background-color: rgb(33, 68, 33);
     
     position: absolute;

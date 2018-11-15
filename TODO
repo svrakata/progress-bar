@@ -1,0 +1,12 @@
+
+ProgressBar v.1:
+  ✔ Find a way to set function as action to be done on slider release. @done(18-11-15 11:29)
+  ✔ Make the progress bar clickable. Every click should return the correct time. @started(18-11-15 11:30) @done(18-11-15 11:44) @lasted(14m47s)
+  
+  ☐ The slider should be adjustable. Find a way to adjust the duration of the video and visually represent it via the slider. (api for setting the slider width in seconds)
+  ☐ Figure out how to pass times through PB api.
+  ☐ Make the duration of the cut and the slider connected.
+  ☐ Research on how to make safe checks on functions parameters.
+
+Bugs:
+  ✔ The slider is jumping right when clicked and the mouse is moved. @done(18-11-15 14:47)

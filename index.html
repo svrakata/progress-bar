@@ -19,9 +19,20 @@
 
     <script>
         const video_length = 16000;
+        const action = (time) => {
+            console.log(time);
+        };
+        
         let progressBar;
+        
         window.addEventListener('DOMContentLoaded', () => {
+            
             progressBar = new ProgressBar({ container: 'progress-bar-container', length: video_length });
+            progressBar.setActionOnSliderRelease(action);
+
+            setTimeout(() => {
+                progressBar.setSliderWidth(570);
+            }, 10000);
         });
     </script>
 </body>

@@ -6,7 +6,7 @@ class ProgressBar {
             barHeight: 50,
             barColor: '#22ff88',
             sliderColor: '#44aa44',
-            sliderWidth: 90,
+            sliderWidth: 360,
             delayTime: 3000,
         };
         
@@ -23,7 +23,7 @@ class ProgressBar {
         this.bar = {
             el: document.createElement('div'),
             boundaries: null,
-        }
+        };
 
         this.slider = {
             el: document.createElement('div'),
@@ -31,6 +31,12 @@ class ProgressBar {
             boundaries: null,
             moveHandler: this.moveSlider.bind(this),
             releaseHandler: this.sliderReleased.bind(this),
+            actionOnRelease: (time) => console.warn('Please set a callback as an action!', time),
+            width: options.sliderWidth || this.defaults.sliderWidth,
+        };
+
+        this.durationSlider = {
+            el: document.createElement('input'),
         }
 
         this.mouse = {
@@ -39,32 +45,35 @@ class ProgressBar {
             sliderLeftPosition: null, 
         };
 
-        this.setStyles(options);
+        this.setupElements(options);
         this.addListeners();
         this.addToDom();
 
         this.bar.boundaries = this.getBoundaries(this.bar.el);
-        this.slider.boundaries = this.getBoundaries(this.slider.el);
 
         this.secondsPerPixels = this.getSecondsPerPixels();
         this.pixelsPerSecond = this.getPixelsPerSecond();
 
+        this.setSliderWidth(this.slider.width);
+        this.slider.boundaries = this.getBoundaries(this.slider.el);
         this.setMarkers();
 
         // change the position of the markers and the px per sec and sec per px values on screen resize
         window.addEventListener('resize', _.throttle(this.resetBarOnWindowResize.bind(this)), 150, { 'leading': true });
     }
 
-    setStyles(options) {
-        // bar styles
+    setupElements(options) {
+        // bar setup
         this.bar.el.classList.add('progress__bar');
         this.bar.el.style.backgroundColor = options.barColor || this.defaults.barColor;
         this.bar.el.style.height = `${options.barHight || this.defaults.barHeight}px`;
 
-        // slider styles
+        // slider setup
         this.slider.el.classList.add('progress__slider');
         this.slider.el.style.backgroundColor = options.sliderColor || this.defaults.sliderColor;
-        this.slider.el.style.width = `${options.sliderWidth || this.defaults.sliderWidth}px`;
+
+        // duration input setup
+        this.slider.el.classList.add('progress__duration');
     }
 
     addListeners() {
@@ -81,14 +90,18 @@ class ProgressBar {
         return element.getBoundingClientRect();
     }
 
-    setSliderWidth(width) {
-        this.slider.el.style.width = `${width}px`;
+    setSliderWidth(seconds) {
+        const px = seconds * this.pixelsPerSecond;
+        this.slider.el.style.width = `${px}px`;
+        this.slider.boundaries = this.getBoundaries(this.slider.el);
     }
 
     sliderPressedDown(e) {
         this.mouse.isDown = true;
         this.mouse.lastPosition = e.clientX;
-        this.mouse.sliderLeftPosition = this.getBoundaries(this.slider.el).left;
+        this.mouse.sliderLeftPosition = giveStringPxReturnNumber(this.slider.el.style.left);
+        console.log(this.mouse.sliderLeftPosition);
+        console.log(this.slider.el.getBoundingClientRect());
         window.addEventListener('mousemove', this.slider.moveHandler);
         window.addEventListener('mouseup', this.slider.releaseHandler);
     }
@@ -103,6 +116,7 @@ class ProgressBar {
         if (this.mouse.sliderLeftPosition + distance > this.bar.boundaries.width - this.slider.boundaries.width) {
             return this.setLeftPositionSlider(this.bar.boundaries.width - this.slider.boundaries.width);
         }
+
         this.setLeftPositionSlider(this.mouse.sliderLeftPosition + distance);
     }
 
@@ -122,7 +136,7 @@ class ProgressBar {
             clearTimeout(this.slider.clear);
         }
 
-        this.slider.clear = setTimeout(this.actionOnSliderRelease.bind(this), this.actionDelayTime);
+        this.slider.clear = setTimeout(this.slider.actionOnRelease.bind(this, this.getTimeAccordingSliderPosition()), this.actionDelayTime);
 
         window.removeEventListener('mousemove', this.slider.moveHandler);
         window.removeEventListener('mouseup', this.slider.releaseHandler);
@@ -156,7 +170,7 @@ class ProgressBar {
 
     createAndAddMarker(position, tall) {
         const marker = document.createElement('div');
-        marker.classList.add('vrs-slider-marker');
+        marker.classList.add('progress__marker');
         marker.style.left = position * this.pixelsPerSecond + 'px';
 
         if (tall) {
@@ -181,7 +195,7 @@ class ProgressBar {
     }
 
     removeMarkers() {
-        this.bar.el.querySelectorAll('.vrs-slider-marker').forEach(e => e.remove());
+        this.bar.el.querySelectorAll('.progress__marker').forEach(e => e.remove());
     }
 
     resetBarOnWindowResize() {
@@ -199,9 +213,8 @@ class ProgressBar {
         return giveStringPxReturnNumber(this.slider.el.style.left) * this.secondsPerPixels;
     }
 
-    actionOnSliderRelease(callback = (time) => console.warn('Please set a callback as an action!', time)) {
-        const time = this.getTimeAccordingSliderPosition();
-        callback(time);
+    setActionOnSliderRelease(action) {
+        this.slider.actionOnRelease = action;
     }
 }
 
