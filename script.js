@@ -73,7 +73,9 @@ class ProgressBar {
         this.slider.el.style.backgroundColor = options.sliderColor || this.defaults.sliderColor;
 
         // duration input setup
-        this.slider.el.classList.add('progress__duration');
+        this.durationSlider.el.classList.add('progress__duration');
+        this.durationSlider.el.setAttribute('type', 'range');
+
     }
 
     addListeners() {
@@ -84,6 +86,7 @@ class ProgressBar {
     addToDom() {
         this.bar.el.appendChild(this.slider.el);
         this.container.appendChild(this.bar.el);
+        this.container.appendChild(this.durationSlider.el);
     }
 
     getBoundaries(element) {

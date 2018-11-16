@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./style.css">
     <script src="./node_modules/@babel/polyfill/dist/polyfill.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+    <script src="./resizbleNode.js"></script>
     <script src="./script.js"></script>
     <title>Document</title>
 </head>
@@ -30,9 +31,9 @@
             progressBar = new ProgressBar({ container: 'progress-bar-container', length: video_length });
             progressBar.setActionOnSliderRelease(action);
 
-            setTimeout(() => {
-                progressBar.setSliderWidth(570);
-            }, 10000);
+            // setTimeout(() => {
+            //     progressBar.setSliderWidth(570);
+            // }, 10000);
         });
     </script>
 </body>
