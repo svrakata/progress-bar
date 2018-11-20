@@ -14,11 +14,6 @@ class ProgressBar {
 
         this.length = options.length;
 
-        this.actionDelayTime = options.delayTime || this.defaults.delayTime;
-        this.barHeight = options.barHeight || this.defaults.barHeight;
-        this.barColor = options.barColor || this.defaults.barColor;
-        this.sliderColor = options.sliderColor || this.defaults.sliderColor;
-
         // throw error if container is not specified
         this.container = document.getElementById(`${options.container}`);
 
