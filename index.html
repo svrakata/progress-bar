@@ -19,16 +19,26 @@
     <div id="progress-bar-container2"></div>
 
     <script>
-        const video_length = 16000;
+        const video_length = 1000;
+        const interval = 30;
         const action = (time) => {
             console.log(time);
         };
-        
+
         let progressBar;
-        
+
         window.addEventListener('DOMContentLoaded', () => {
-            
-            progressBar = new ProgressBar({ container: 'progress-bar-container', length: video_length });
+
+            progressBar = new ProgressBar({
+                container: 'progress-bar-container',
+                length: video_length,
+                durationSlider: {
+                    value: interval,
+                    step: interval,
+                    min: interval,
+                    max: 600,
+                },
+            });
             progressBar.setActionOnSliderRelease(action);
 
             // setTimeout(() => {

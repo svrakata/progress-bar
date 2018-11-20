@@ -1,23 +1,25 @@
 #progress-bar-container {
-    padding: 10px;
     border: 2px solid silver;
+
+    padding: 10px;
 }
 
 .progress__bar {
-    position: relative;
+    background-color: #22ff88;
     border-top: 1px solid rgb(33, 68, 33);
+
+    height: 50px;
+
+    position: relative;
 }
 
 .progress__slider {
+    background-color: #44aa44;
     cursor: pointer;
 
     height: 100%;
     
     position: relative;
-}
-
-.progress__duration {
-    
 }
 
 .progress__marker {
@@ -30,3 +32,115 @@
     height: 10px;
     width: 1px;
 }
+
+.progress__marker--tall {
+    height: 30px;
+}
+
+/*
+ ================ restyle the range input (#DURATION slider) /c-ped from somewhere/
+*/
+
+.progress__duration {
+    display: block;
+
+    margin: 10px 0 0 0;
+}
+
+input[type=range] {
+    -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+    width: 100%; /* Specific width is required for Firefox. */
+    background: transparent; /* Otherwise white in Chrome */
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+}
+
+input[type=range]:focus {
+    outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+}
+
+input[type=range]::-ms-track {
+    width: 100%;
+    cursor: pointer;
+
+    /* Hides the slider so custom styles can be added */
+    background: transparent; 
+    border-color: transparent;
+    color: transparent;
+}
+
+/* Special styling for WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+    background: #346d37;
+    -webkit-appearance: none;
+    height: 16px;
+    width: 36px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  /* All the same stuff for Firefox */
+  input[type=range]::-moz-range-thumb {
+    background: #346d37;
+    height: 16px;
+    width: 36px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  /* All the same stuff for IE */
+  input[type=range]::-ms-thumb {
+    background: #346d37;
+    height: 16px;
+    width: 36px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  /* SLIDER TRACK */
+
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 16px;
+    cursor: pointer;
+    background:  linear-gradient(60deg, #66bb6a, #43a047);
+    border-radius: 1.3px;
+  }
+  
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: linear-gradient(60deg, #66bb6a, #43a047);
+  }
+  
+  input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 16px;
+    cursor: pointer;
+    background: linear-gradient(60deg, #66bb6a, #43a047);
+    border-radius: 1.3px;
+  }
+  
+  input[type=range]::-ms-track {
+    width: 100%;
+    height: 16px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    border-width: 16px 0;
+    color: transparent;
+  }
+  input[type=range]::-ms-fill-lower {
+    background: linear-gradient(60deg, #66bb6a, #43a047);
+    border-radius: 2.6px;
+  }
+  input[type=range]:focus::-ms-fill-lower {
+    background: linear-gradient(60deg, #66bb6a, #43a047);
+  }
+  input[type=range]::-ms-fill-upper {
+    background: linear-gradient(60deg, #66bb6a, #43a047);
+    border-radius: 2.6px;
+  }
+  input[type=range]:focus::-ms-fill-upper {
+    background: linear-gradient(60deg, #66bb6a, #43a047);
+  }

@@ -2,11 +2,17 @@
 ProgressBar v.1:
   ✔ Find a way to set function as action to be done on slider release. @done(18-11-15 11:29)
   ✔ Make the progress bar clickable. Every click should return the correct time. @started(18-11-15 11:30) @done(18-11-15 11:44) @lasted(14m47s)
+  ✔ All the styles will be set with css. (no js set styles). @done(18-11-20 11:53)
+  ✔ Make the setup for the elements independent for each element and put the listeners attaching inside. @done(18-11-20 14:07)
+  ✔ The slider should be adjustable. Find a way to adjust the duration of the video and visually represent it via the slider. (api for setting the slider width in seconds) @done(18-11-20 14:15)
+  ✔ Limit the maximum size of the section(slider width, duration slider max range) according to the slider position. (the problem is redefined) @done(18-11-20 14:16)
   
-  ☐ The slider should be adjustable. Find a way to adjust the duration of the video and visually represent it via the slider. (api for setting the slider width in seconds)
   ☐ Figure out how to pass times through PB api.
   ☐ Make the duration of the cut and the slider connected.
   ☐ Research on how to make safe checks on functions parameters.
+  ☐ Find a way to change the fact that the init functions in the constructor must be invoked in specific order.
+  ☐ Check slider max width and compare it with the duration range value. If more do nothing else change the slider widht accordingly; (better than changing the duration range max attribute);
 
 Bugs:
   ✔ The slider is jumping right when clicked and the mouse is moved. @done(18-11-15 14:47)
+  ✔ The markes duplicates on each hour. @done(18-11-20 14:07)
