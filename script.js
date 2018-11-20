@@ -49,9 +49,6 @@ class ProgressBar {
             endTimeSection: new Timer('End time of the section:', 0),
         };
 
-        // the order of executing these functions is strict
-        // i don't like that 
-
         this.setupElements();
         this.addToDom();
 
@@ -63,7 +60,7 @@ class ProgressBar {
         this.setSliderWidth(this.durationSlider.el.value);
         this.setMarkers();
 
-        // change the position of the markers and the px per sec and sec per px values on screen resize
+        // this changes the position of the markers and the px per sec and sec per px values when the screen is resized
         window.addEventListener('resize', _.throttle(this.resetBarOnWindowResize.bind(this)), 150, { 'leading': true });
 
         this.helpers = {
