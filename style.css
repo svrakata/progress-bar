@@ -1,3 +1,8 @@
+#progress-bar-container * {
+  box-sizing: border-box;
+  font-family: Roboto;
+}
+
 #progress-bar-container {
     border: 2px solid silver;
 
@@ -11,6 +16,8 @@
     height: 50px;
 
     position: relative;
+
+    overflow: hidden;
 }
 
 .progress__slider {
@@ -38,7 +45,7 @@
 }
 
 /*
- ================ restyle the range input (#DURATION slider) /c-ped from somewhere/
+ ================ restyling of the range input (#DURATION slider) /c-ped from somewhere/
 */
 
 .progress__duration {
@@ -76,7 +83,7 @@ input[type=range]::-webkit-slider-thumb {
     background: #346d37;
     -webkit-appearance: none;
     height: 16px;
-    width: 36px;
+    width: 45px;
     border-radius: 3px;
     cursor: pointer;
   }
@@ -85,7 +92,7 @@ input[type=range]::-webkit-slider-thumb {
   input[type=range]::-moz-range-thumb {
     background: #346d37;
     height: 16px;
-    width: 36px;
+    width: 45px;
     border-radius: 3px;
     cursor: pointer;
   }
@@ -94,7 +101,7 @@ input[type=range]::-webkit-slider-thumb {
   input[type=range]::-ms-thumb {
     background: #346d37;
     height: 16px;
-    width: 36px;
+    width: 45px;
     border-radius: 3px;
     cursor: pointer;
   }
@@ -144,3 +151,36 @@ input[type=range]::-webkit-slider-thumb {
   input[type=range]:focus::-ms-fill-upper {
     background: linear-gradient(60deg, #66bb6a, #43a047);
   }
+
+/*
+ ================ #TIMERS ================
+*/
+
+.progress__timer {
+  border-left: 1px solid silver;
+  /* box-shadow: 2px 2px 10px #ccc; */
+
+  padding: 0;
+  margin-right: 10px;
+  margin-top: 10px;
+
+  display: inline-block;
+}
+
+.progress__label {
+  border-bottom: 1px solid silver;
+  display: block;
+
+  color: #777;
+  font-size: 16px;
+  
+  padding: 5px 10px;
+}
+
+.progress__time {
+  display: block;
+
+  font-size: 20px;
+
+  padding: 5px 10px;
+}

@@ -13,6 +13,7 @@ class ProgressBar {
         };
 
         this.length = options.length;
+        this.startTime = 0;
 
         // throw error if container is not specified
         this.container = document.getElementById(`${options.container}`);
@@ -43,10 +44,10 @@ class ProgressBar {
         };
 
         this.timers = {
-            durationRecording: new Timer('Duration of the recording:', this.length),
-            durationSection: new Timer('Duration of the section:', this.durationSlider.attr.value),
-            startTimeSection: new Timer('Start time of the section:', 0),
-            endTimeSection: new Timer('End time of the section:', 0),
+            durationRecording: new Timer('Duration of the recording: ', this.length),
+            durationSection: new Timer('Duration of the section: ', this.durationSlider.attr.value),
+            startTimeSection: new Timer('Start time of the section: ', 0),
+            endTimeSection: new Timer('End time of the section: ', this.durationSlider.attr.value),
         };
 
         this.setupElements();
@@ -110,14 +111,21 @@ class ProgressBar {
         const px = parseInt(seconds) * this.pixelsPerSecond;
         const action = () => {
             this.slider.el.style.width = `${px}px`;
-            // update the slider boundaries inside the animationFrame 'cause it's called asyncly
+            // updates the slider boundaries inside the animationFrame 'cause it's called asyncly
             this.slider.boundaries = this.getBoundaries(this.slider.el);
         };
         requestAnimationFrame(action);
     }
 
     changeSliderWidth(e) {
-        const value = e.target.value;
+        const value = parseInt(e.target.value);
+        const currentTime = parseInt(this.getTimeAccordingSliderPosition());
+        const maxPossibleValue = Math.floor((this.length - currentTime) / this.durationSlider.attr.step) * this.durationSlider.attr.step;
+
+        if (currentTime + value > this.length) {
+            return this.setSliderWidth(maxPossibleValue);
+        }
+
         this.timers.durationSection.updateTime(value);
         this.setSliderWidth(value);
     }
@@ -156,19 +164,21 @@ class ProgressBar {
 
     sliderReleased() {
         this.mouseDown = false;
-
-        if (this.slider.clear) {
-            clearTimeout(this.slider.clear);
-        }
-
-        this.slider.clear = setTimeout(this.slider.actionOnRelease.bind(this, this.getTimeAccordingSliderPosition()), this.actionDelayTime);
+        this.executeActionOnRelease();
 
         window.removeEventListener('mousemove', this.slider.moveHandler);
         window.removeEventListener('mouseup', this.slider.releaseHandler);
     }
 
     setLeftPositionSlider(position) {
-        requestAnimationFrame(() => this.slider.el.style.left = `${position}px`);
+        const action = () => {
+            const currentTime = this.getTimeAccordingSliderPosition();
+            this.slider.el.style.left = `${position}px`;
+            this.timers.startTimeSection.updateTime(currentTime);
+            this.timers.endTimeSection.updateTime(currentTime + parseInt(this.durationSlider.el.value));
+        }
+
+        requestAnimationFrame(action);
     }
 
     setSliderAtPositionInSnds(snds = 0) {
@@ -183,6 +193,16 @@ class ProgressBar {
         } else {
             this.setLeftPositionSlider(pxs);
         }
+
+        this.executeActionOnRelease.call(this);
+    }
+
+    executeActionOnRelease() {
+        if (this.slider.clear) {
+            clearTimeout(this.slider.clear);
+        }
+
+        this.slider.clear = setTimeout(this.slider.actionOnRelease.bind(this, this.getTimeAccordingSliderPosition()), this.defaults.actionDelayTime || 2000);
     }
 
     getPixelsPerSecond() {
@@ -248,6 +268,8 @@ class Timer {
 
         this.helpers = {
             passSecondsReturnTime: (seconds) => {
+                seconds = Math.floor(seconds);
+
                 let hours = Math.floor(seconds / 3600);
                 let minutes = Math.floor((seconds % 3600) / 60);
                 let secondsLeft = seconds - (hours * 3600) - (minutes * 60);

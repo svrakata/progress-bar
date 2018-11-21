@@ -6,12 +6,15 @@ ProgressBar v.1:
   ✔ Make the setup for the elements independent for each element and put the listeners attaching inside. @done(18-11-20 14:07)
   ✔ The slider should be adjustable. Find a way to adjust the duration of the video and visually represent it via the slider. (api for setting the slider width in seconds) @done(18-11-20 14:15)
   ✔ Limit the maximum size of the section(slider width, duration slider max range) according to the slider position. (the problem is redefined) @done(18-11-20 14:16)
+  ✔ Make the duration of the cut and the slider connected. @done(18-11-21 09:13)
+  ✔ Check slider max width and compare it with the duration range value. If more do nothing else change the slider widht accordingly; (better than changing the duration range max attribute); @done(18-11-21 10:33)
+  ✔ Style the timers. @done(18-11-21 11:11)
+  ✔ Display the correct times at initiation. @done(18-11-21 11:11) (loosy)
   
   ☐ Figure out how to pass times through PB api.
-  ☐ Make the duration of the cut and the slider connected.
   ☐ Research on how to make safe checks on functions parameters.
   ☐ Find a way to change the fact that the init functions in the constructor must be invoked in specific order.
-  ☐ Check slider max width and compare it with the duration range value. If more do nothing else change the slider widht accordingly; (better than changing the duration range max attribute);
+  ☐ When setting slider at position with the API --- execute the action aswell.
 
 Bugs:
   ✔ The slider is jumping right when clicked and the mouse is moved. @done(18-11-15 14:47)
