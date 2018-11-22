@@ -29,7 +29,7 @@ class ProgressBar {
             boundaries: null,
             moveHandler: this.moveSlider.bind(this),
             releaseHandler: this.sliderReleased.bind(this),
-            actionOnRelease: (time) => console.warn('Please set a callback as an action!', time),
+            actionOnRelease: (time) => console.warn('Please change the default action!', time),
         };
 
         this.durationSlider = {
@@ -172,8 +172,11 @@ class ProgressBar {
 
     setLeftPositionSlider(position) {
         const action = () => {
-            const currentTime = this.getTimeAccordingSliderPosition();
             this.slider.el.style.left = `${position}px`;
+
+            // get the time after the position is changed
+
+            const currentTime = this.getTimeAccordingSliderPosition();
             this.timers.startTimeSection.updateTime(currentTime);
             this.timers.endTimeSection.updateTime(currentTime + parseInt(this.durationSlider.el.value));
         }
