@@ -5,18 +5,22 @@ class ProgressBar {
         this.defaults = {
             delayTime: 3000,
             durationSlider: {
-                step: 30,
-                min: 30,
-                max: 600,
-                value: 30,
+                step: options.durationSlider.step || 30,
+                min: options.durationSlider.min || 30,
+                max: options.durationSlider.max || 600,
+                value: options.durationSlider.value || 30,
             },
         };
 
-        this.length = options.length;
-        this.startTime = 0;
-
         // throw error if container is not specified
         this.container = document.getElementById(`${options.container}`);
+
+        this.time = {
+            length: options.length,
+            start: this.defaults.durationSlider.value,
+            end: 0,
+            duration: this.defaults.durationSlider.value || 30,
+        };
 
         this.bar = {
             el: document.createElement('div'),
@@ -44,11 +48,13 @@ class ProgressBar {
         };
 
         this.timers = {
-            durationRecording: new Timer('Duration of the recording: ', this.length),
-            durationSection: new Timer('Duration of the section: ', this.durationSlider.attr.value),
-            startTimeSection: new Timer('Start time of the section: ', 0),
-            endTimeSection: new Timer('End time of the section: ', this.durationSlider.attr.value),
+            durationRecording: new Timer('Duration of the recording: ', this.time.length),
+            durationSection: new Timer('Duration of the section: ', this.time.duration),
+            startTimeSection: new Timer('Start time of the section: ', this.time.start),
+            endTimeSection: new Timer('End time of the section: ', this.time.end),
         };
+
+
 
         this.setupElements();
         this.addToDom();
@@ -120,9 +126,9 @@ class ProgressBar {
     changeSliderWidth(e) {
         const value = parseInt(e.target.value);
         const currentTime = parseInt(this.getTimeAccordingSliderPosition());
-        const maxPossibleValue = Math.floor((this.length - currentTime) / this.durationSlider.attr.step) * this.durationSlider.attr.step;
+        const maxPossibleValue = Math.floor((this.time.length - currentTime) / this.durationSlider.attr.step) * this.durationSlider.attr.step;
 
-        if (currentTime + value > this.length) {
+        if (currentTime + value > this.time.length) {
             return this.setSliderWidth(maxPossibleValue);
         }
 
@@ -209,11 +215,11 @@ class ProgressBar {
     }
 
     getPixelsPerSecond() {
-        return this.bar.boundaries.width / this.length;
+        return this.bar.boundaries.width / this.time.length;
     }
 
     getSecondsPerPixels() {
-        return this.length / this.bar.boundaries.width;
+        return this.time.length / this.bar.boundaries.width;
     }
 
     createAndAddMarker(position, tall) {
@@ -229,7 +235,7 @@ class ProgressBar {
     };
 
     setMarkers() {
-        const tenMinutesMarkers = this.length / (60 * 10);
+        const tenMinutesMarkers = this.time.length / (60 * 10);
 
         // sets markers for each 10 minutes
         for (let i = 0; i <= tenMinutesMarkers; i++) {
