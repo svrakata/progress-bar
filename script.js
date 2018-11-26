@@ -120,6 +120,7 @@ class ProgressBar {
             // updates the slider boundaries inside the animationFrame 'cause it's called asyncly
             this.slider.boundaries = this.getBoundaries(this.slider.el);
         };
+        this.time.duration = parseInt(seconds);
         requestAnimationFrame(action);
     }
 
@@ -129,6 +130,7 @@ class ProgressBar {
         const maxPossibleValue = Math.floor((this.time.length - currentTime) / this.durationSlider.attr.step) * this.durationSlider.attr.step;
 
         if (currentTime + value > this.time.length) {
+            this.timers.durationSection.updateTime(maxPossibleValue);
             return this.setSliderWidth(maxPossibleValue);
         }
 
@@ -183,8 +185,12 @@ class ProgressBar {
             // get the time after the position is changed
 
             const currentTime = this.getTimeAccordingSliderPosition();
+
+
+            console.log(currentTime)
+
             this.timers.startTimeSection.updateTime(currentTime);
-            this.timers.endTimeSection.updateTime(currentTime + parseInt(this.durationSlider.el.value));
+            this.timers.endTimeSection.updateTime(currentTime + parseInt(this.time.duration));
         }
 
         requestAnimationFrame(action);
