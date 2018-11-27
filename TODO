@@ -22,3 +22,5 @@ Bugs:
   ✔ The slider is jumping right when clicked and the mouse is moved. @done(18-11-15 14:47)
   ✔ The markes duplicates on each hour. @done(18-11-20 14:07)
   ✔ Clicking on the bar is returning wrong times @done(18-11-22 13:26)
+
+  ☐ Time markes block the clicking. Make them go under the bar.

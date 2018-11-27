@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="https://img.sportal.bg/images/sportal.player/libs/video-js.min.css">
+<link rel="stylesheet" href="https://img.sportal.bg/images/sportal.player/player.css">
+
+<div class="player-wrapper" style="position: relative">
+    <a class="adv-sportal-player__link" href="https://gdebg.hit.gemius.pl/lshitredir/id=0sfrCyLnb.tWfKfJ_C.qsfVnXkFRd6_fCx4QCnhxnu3.N7/fastid=azztagriwnbrdfncmgjssqeddskx/stparam=zpdtmkepsx/nc=0/gdpr=0/gdpr_consent=/url=https://cappyhot.bg/?utm_source=woman&utm_medium=CPM&utm_campaign=CappyHot&utm_content=pre-roll" target="_blank"></a>
+    <div class="detachment-container">
+        <video-js id="adv-sportal-player" class="vjs-default-skin" controls></video-js>
+        <button class="player-close-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 611.979 611.979">
+                <path d="M356.781 305.982L601.453 61.311c14.033-14.033 14.033-36.771 0-50.774-14.004-14.033-36.741-14.033-50.774 0L306.007 255.208 61.277 10.536c-14.004-14.033-36.771-14.033-50.774 0-14.004 14.004-14.004 36.742 0 50.774l244.701 244.672L10.503 550.684c-14.004 14.004-14.004 36.771 0 50.774 7.016 7.017 16.216 10.51 25.387 10.51 9.2 0 18.371-3.493 25.387-10.51l244.701-244.701 244.671 244.701c7.017 7.017 16.217 10.51 25.388 10.51 9.199 0 18.399-3.493 25.387-10.51 14.033-14.033 14.033-36.771 0-50.774L356.781 305.982z"
+                    fill="#fff"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<script>
+    var advPlayerSportal;
+    var playerOptions1 = {
+        src: 'https://img.sportal.bg/uploads/video_advertising/cappy_pre_roll.mp4',
+        id: 'adv-sportal-player',
+        autoplay: true,
+        muted: true,
+    };
+
+    var setAndAddScript = function (src, callback) {
+        var script = document.createElement('script');
+        var head = document.querySelector('head');
+        if (callback) {
+            var onLoadFunct = callback.bind(this);
+            script.addEventListener('load', onLoadFunct);
+        }
+        script.setAttribute('src', src);
+        head.appendChild(script);
+    };
+
+    var scripts = [
+        'https://img.sportal.bg/images/sportal.player/libs/video.min.js',
+        'https://img.sportal.bg/images/sportal.player/libs/lodash.min.js',
+        'https://img.sportal.bg/images/sportal.player/player.js',
+    ];
+
+    setAndAddScript(
+        scripts[0], setAndAddScript.bind(this, 
+        scripts[1], setAndAddScript.bind(this, 
+        scripts[2], function () {
+            advPlayerSportal = new Player(playerOptions1);
+            advPlayerSportal.ref.on("ended", function () {
+                var bannerZone = document.getElementById(this.id());
+                var container = bannerZone.parentNode.parentNode.parentNode.parentNode.parentNode;
+                this.dispose();
+                container.innerHTML = '';
+                container.style.height = "0";
+                container.style.width = "0";
+            });
+        }
+    )));
+</script>
