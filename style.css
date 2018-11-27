@@ -9,18 +9,20 @@
     padding: 10px;
 }
 
-.progress__bar {
+.vrs-progress__bar {
     background-color: #22ff88;
     border-top: 1px solid rgb(33, 68, 33);
 
     height: 50px;
 
+    margin-bottom: 35px;
+
     position: relative;
 
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
-.progress__slider {
+.vrs-progress__slider {
     background-color: #44aa44;
     cursor: pointer;
 
@@ -29,7 +31,35 @@
     position: relative;
 }
 
-.progress__marker {
+    .vrs-progress__thumb {
+      background-color: #777777;
+      border-radius: 4px;
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
+      
+      position: absolute;
+      bottom: -28px;
+      left: calc(50% - 9px);
+
+      height: 24px;
+      width: 18px;
+    }
+
+    .vrs-progress__thumb::before {
+      border: 5px solid transparent;
+      border-bottom-color: #777777;
+
+      content: '';
+
+      position: absolute;
+      top: -8px;
+      left: calc(50% - 5px);
+
+      height: 0;
+      width: 0;
+    }
+
+.vrs-progress__marker {
     background-color: rgb(33, 68, 33);
     
     position: absolute;
@@ -40,7 +70,7 @@
     width: 1px;
 }
 
-.progress__marker--tall {
+.vrs-progress__marker--tall {
     height: 30px;
 }
 
@@ -48,7 +78,7 @@
  ================ restyling of the range input (#DURATION slider) /c-ped from somewhere/
 */
 
-.progress__duration {
+.vrs-progress__duration {
     display: block;
 
     margin: 10px 0 0 0;
@@ -156,7 +186,7 @@ input[type=range]::-webkit-slider-thumb {
  ================ #TIMERS ================
 */
 
-.progress__timer {
+.vrs-progress__timer {
   border-left: 1px solid silver;
   /* box-shadow: 2px 2px 10px #ccc; */
 
@@ -167,7 +197,7 @@ input[type=range]::-webkit-slider-thumb {
   display: inline-block;
 }
 
-.progress__label {
+.vrs-progress__label {
   border-bottom: 1px solid silver;
   display: block;
 
@@ -177,7 +207,7 @@ input[type=range]::-webkit-slider-thumb {
   padding: 5px 10px;
 }
 
-.progress__time {
+.vrs-progress__time {
   display: block;
 
   font-size: 20px;

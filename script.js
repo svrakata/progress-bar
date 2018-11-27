@@ -17,8 +17,8 @@ class ProgressBar {
 
         this.time = {
             length: options.length,
-            start: this.defaults.durationSlider.value,
-            end: 0,
+            start: 0,
+            end: this.defaults.durationSlider.value,
             duration: this.defaults.durationSlider.value || 30,
         };
 
@@ -54,8 +54,6 @@ class ProgressBar {
             endTimeSection: new Timer('End time of the section: ', this.time.end),
         };
 
-
-
         this.setupElements();
         this.addToDom();
 
@@ -83,17 +81,22 @@ class ProgressBar {
     }
 
     barElSetup(node) {
-        node.el.classList.add('progress__bar');
+        node.el.classList.add('vrs-progress__bar');
         node.el.addEventListener('click', this.moveSliderOnClick.bind(this));
     }
 
     sliderElSetup(node) {
-        node.el.classList.add('progress__slider');
+        const thumb = document.createElement('div');
+        thumb.classList.add('vrs-progress__thumb');
+
+        node.el.appendChild(thumb);
+
+        node.el.classList.add('vrs-progress__slider');
         node.el.addEventListener('mousedown', this.sliderPressedDown.bind(this));
     }
 
     durationElSetup(node) {
-        node.el.classList.add('progress__duration');
+        node.el.classList.add('vrs-progress__duration');
         node.el.setAttribute('type', 'range');
         node.el.value = node.attr.value;
         node.el.min = node.attr.min;
@@ -119,6 +122,8 @@ class ProgressBar {
             this.slider.el.style.width = `${px}px`;
             // updates the slider boundaries inside the animationFrame 'cause it's called asyncly
             this.slider.boundaries = this.getBoundaries(this.slider.el);
+            this.time.end = this.time.start + parseInt(this.time.duration);
+            this.timers.endTimeSection.updateTime(this.time.end);
         };
         this.time.duration = parseInt(seconds);
         requestAnimationFrame(action);
@@ -130,7 +135,6 @@ class ProgressBar {
         const maxPossibleValue = Math.floor((this.time.length - currentTime) / this.durationSlider.attr.step) * this.durationSlider.attr.step;
 
         if (currentTime + value > this.time.length) {
-            this.timers.durationSection.updateTime(maxPossibleValue);
             return this.setSliderWidth(maxPossibleValue);
         }
 
@@ -184,13 +188,13 @@ class ProgressBar {
 
             // get the time after the position is changed
 
-            const currentTime = this.getTimeAccordingSliderPosition();
+            const currentTime = Math.floor(this.getTimeAccordingSliderPosition());
 
+            this.time.start = currentTime;
+            this.time.end = currentTime + this.time.duration;
 
-            console.log(currentTime)
-
-            this.timers.startTimeSection.updateTime(currentTime);
-            this.timers.endTimeSection.updateTime(currentTime + parseInt(this.time.duration));
+            this.timers.startTimeSection.updateTime(this.time.start);
+            this.timers.endTimeSection.updateTime(this.time.end);
         }
 
         requestAnimationFrame(action);
@@ -230,11 +234,11 @@ class ProgressBar {
 
     createAndAddMarker(position, tall) {
         const marker = document.createElement('div');
-        marker.classList.add('progress__marker');
+        marker.classList.add('vrs-progress__marker');
         marker.style.left = position * this.pixelsPerSecond + 'px';
 
         if (tall) {
-            marker.classList.add('progress__marker--tall');
+            marker.classList.add('vrs-progress__marker--tall');
         }
 
         this.bar.el.appendChild(marker);
@@ -250,12 +254,11 @@ class ProgressBar {
             } else {
                 this.createAndAddMarker(i * 600);
             }
-
         }
     }
 
     removeMarkers() {
-        this.bar.el.querySelectorAll('.progress__marker').forEach(e => e.remove());
+        this.bar.el.querySelectorAll('.vrs-progress__marker').forEach(e => e.remove());
     }
 
     resetBarOnWindowResize() {
@@ -318,9 +321,9 @@ class Timer {
         const label = document.createElement('span');
         const time = document.createElement('span');
 
-        container.classList.add('progress__timer');
-        label.classList.add('progress__label');
-        time.classList.add('progress__time');
+        container.classList.add('vrs-progress__timer');
+        label.classList.add('vrs-progress__label');
+        time.classList.add('vrs-progress__time');
 
         label.innerHTML = this.label;
         time.innerHTML = this.time;

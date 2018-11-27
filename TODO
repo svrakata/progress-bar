@@ -10,12 +10,13 @@ ProgressBar v.1:
   ✔ Check slider max width and compare it with the duration range value. If more do nothing else change the slider widht accordingly; (better than changing the duration range max attribute); @done(18-11-21 10:33)
   ✔ Style the timers. @done(18-11-21 11:11)
   ✔ Display the correct times at initiation. @done(18-11-21 11:11) (loosy)
+  ✔ Figure out how to pass times through PB api. @done(18-11-27 13:58) (everything related to the changing of the positon and size of the slider updates the time object)
+  ✔ When setting slider at position with the API --- execute the action aswell. @done(18-11-27 14:19) 
+  ✔ Change the name of the classes to be more specific (e.g. progress__bar ---> vrs-progress__bar) @started(18-11-27 14:23) @done(18-11-27 14:25) @lasted(2m13s)
+  ✔ Add thumb to the slider so it can be easier to use when small. @started(18-11-27 14:20) @done(18-11-27 15:03) @lasted(43m7s)
   
-  ☐ Figure out how to pass times through PB api.
   ☐ Research on how to make safe checks on functions parameters.
   ☐ Find a way to change the fact that the init functions in the constructor must be invoked in specific order.
-  ☐ When setting slider at position with the API --- execute the action aswell.
-  ☐ Add thumb to the slider so it can be easier to use when small.
 
 Bugs:
   ✔ The slider is jumping right when clicked and the mouse is moved. @done(18-11-15 14:47)
