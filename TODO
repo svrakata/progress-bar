@@ -18,6 +18,7 @@ ProgressBar v.1:
   ☐ Research on how to make safe checks on functions parameters.
   ☐ Find a way to change the fact that the init functions in the constructor must be invoked in specific order.
   ☐ Change the color of the slider to be more visible and distinguishable
+  ☐ Make the thumb disappear if it is smaller than the slider
 
 Bugs:
   ✔ The slider is jumping right when clicked and the mouse is moved. @done(18-11-15 14:47)

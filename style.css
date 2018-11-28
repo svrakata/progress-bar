@@ -12,7 +12,7 @@
 .vrs-progress__bar {
     background-color: #eeeeee;
     border: 1px solid silver;
-    border-top: 1px solid rgba(0, 0, 0, .5);
+    border-top: 1px solid rgba(0, 0, 0, .8);
 
     height: 50px;
 
@@ -61,7 +61,7 @@
     }
 
 .vrs-progress__marker {
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, .8);
     
     position: absolute;
 
