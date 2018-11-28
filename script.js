@@ -221,7 +221,7 @@ class ProgressBar {
             clearTimeout(this.slider.clear);
         }
 
-        this.slider.clear = setTimeout(this.slider.actionOnRelease.bind(this, this.getTimeAccordingSliderPosition()), this.defaults.actionDelayTime || 2000);
+        this.slider.clear = setTimeout(this.slider.actionOnRelease.bind(this, this.timers), this.defaults.actionDelayTime || 2000);
     }
 
     getPixelsPerSecond() {
