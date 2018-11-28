@@ -168,9 +168,8 @@ class ProgressBar {
     moveSliderOnClick(e) {
         if (e.target === this.bar.el) {
 
-            // check 
-
             this.setLeftPositionSlider(e.clientX - this.bar.boundaries.left);
+            this.executeActionOnRelease();
         }
     }
 
@@ -220,7 +219,6 @@ class ProgressBar {
         if (this.slider.clear) {
             clearTimeout(this.slider.clear);
         }
-
         this.slider.clear = setTimeout(this.slider.actionOnRelease.bind(this, this.timers), this.defaults.actionDelayTime || 2000);
     }
 
