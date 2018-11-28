@@ -10,8 +10,9 @@
 }
 
 .vrs-progress__bar {
-    background-color: #22ff88;
-    border-top: 1px solid rgb(33, 68, 33);
+    background-color: #eeeeee;
+    border: 1px solid silver;
+    border-top: 1px solid rgba(0, 0, 0, .5);
 
     height: 50px;
 
@@ -23,7 +24,7 @@
 }
 
 .vrs-progress__slider {
-    background-color: #44aa44;
+    background-color: #f01d72;
     cursor: pointer;
 
     height: 100%;
@@ -60,7 +61,7 @@
     }
 
 .vrs-progress__marker {
-    background-color: rgb(33, 68, 33);
+    background-color: rgba(0, 0, 0, .5);
     
     position: absolute;
 
