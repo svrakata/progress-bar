@@ -151,6 +151,7 @@ class ProgressBar {
     }
 
     moveSlider(e) {
+        e.preventDefault();
         const distance = e.clientX - this.mouse.lastPosition;
         const sliderNewLeft = this.mouse.sliderLeftPosition + distance;
 

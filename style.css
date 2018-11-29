@@ -1,5 +1,6 @@
 #progress-bar-container * {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   font-family: Roboto;
 }
 
