@@ -34,8 +34,8 @@ class ProgressBar {
 
         this.timestamp = {
             start: options.startTimestamp || 0,
-            cutStart: this.timestamp.start + this.time.start,
-            cutEnd: this.timestamp.start + this.time.start + this.time.duration,
+            cutStart: 0,
+            cutEnd: 0,
             update() {
                 this.timestamp.cutStart = this.timestamp.start + this.time.start;
                 this.timestamp.cutEnd = this.timestamp.start + this.time.start + this.time.duration;
@@ -43,6 +43,7 @@ class ProgressBar {
         };
 
         this.sliderPositionObserver.subscribe(this.time.update.bind(this));
+        this.timestamp.update.call(this);
 
         this.bar = {
             el: document.createElement('div'),
@@ -145,8 +146,8 @@ class ProgressBar {
             this.slider.boundaries = this.getBoundaries(this.slider.el);
             this.time.end = this.time.start + parseInt(this.time.duration);
             this.timers.endTimeSection.updateTime(this.time.end);
+            this.time.duration = parseInt(seconds);
         };
-        this.time.duration = parseInt(seconds);
         requestAnimationFrame(action);
     }
 
