@@ -34,8 +34,8 @@ class ProgressBar {
 
         this.timestamp = {
             start: options.startTimestamp || 0,
-            cutStart: 0,
-            cutEnd: 0,
+            cutStart: this.timestamp.start + this.time.start,
+            cutEnd: this.timestamp.start + this.time.start + this.time.duration,
             update() {
                 this.timestamp.cutStart = this.timestamp.start + this.time.start;
                 this.timestamp.cutEnd = this.timestamp.start + this.time.start + this.time.duration;
