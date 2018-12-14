@@ -14,13 +14,35 @@ class ProgressBar {
 
         // throw error if container is not specified
         this.container = document.getElementById(`${options.container}`);
+        this.sliderPositionObserver = new Observer();
+        // :(
 
         this.time = {
-            length: options.length,
+            length: options.length || 0,
             start: 0,
-            end: this.defaults.durationSlider.value,
+            end: this.defaults.durationSlider.value || 0,
             duration: this.defaults.durationSlider.value || 30,
+            update() {
+                const currentTime = Math.floor(this.getTimeAccordingSliderPosition());
+
+                this.time.start = currentTime;
+                this.time.end = currentTime + this.time.duration;
+
+                this.timestamp.update.call(this);
+            },
         };
+
+        this.timestamp = {
+            start: options.startTimestamp || 0,
+            cutStart: 0,
+            cutEnd: 0,
+            update() {
+                this.timestamp.cutStart = this.timestamp.start + this.time.start;
+                this.timestamp.cutEnd = this.timestamp.start + this.time.start + this.time.duration;
+            },
+        };
+
+        this.sliderPositionObserver.subscribe(this.time.update.bind(this));
 
         this.bar = {
             el: document.createElement('div'),
@@ -39,7 +61,7 @@ class ProgressBar {
         this.durationSlider = {
             el: document.createElement('input'),
             attr: this.defaults.durationSlider,
-        }
+        };
 
         this.mouse = {
             isDown: false,
@@ -71,7 +93,6 @@ class ProgressBar {
         this.helpers = {
             passStringPxReturnNumber: (pixelsString) => (+(pixelsString.split('px')[0])),
         };
-
     }
 
     setupElements() {
@@ -188,14 +209,11 @@ class ProgressBar {
 
             // get the time after the position is changed
 
-            const currentTime = Math.floor(this.getTimeAccordingSliderPosition());
-
-            this.time.start = currentTime;
-            this.time.end = currentTime + this.time.duration;
+            this.sliderPositionObserver.notify();
 
             this.timers.startTimeSection.updateTime(this.time.start);
             this.timers.endTimeSection.updateTime(this.time.end);
-        }
+        };
 
         requestAnimationFrame(action);
     }
@@ -343,5 +361,25 @@ class Timer {
 
     updateTime(newTime = 0) {
         this.el.time.innerHTML = this.helpers.passSecondsReturnTime(newTime);
+    }
+}
+
+
+// this will update everyone that subscribed with the new times
+class Observer {
+    constructor() {
+        this.observers = [];
+    }
+
+    subscribe(observer) {
+        this.observers.push(observer);
+    }
+
+    unsubscribe(toRemove) {
+        this.observers = this.observers.filter(obsrv => obsrv !== toRemove);
+    }
+
+    notify(data) {
+        this.observers.forEach(obsrv => obsrv(data));
     }
 }
