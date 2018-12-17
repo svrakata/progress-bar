@@ -15,6 +15,7 @@ class ProgressBar {
         // throw error if container is not specified
         this.container = document.getElementById(`${options.container}`);
         this.sliderPositionObserver = new Observer();
+        this.sliderWidthObserver = new Observer();
         // :(
 
         this.time = {
@@ -43,6 +44,8 @@ class ProgressBar {
         };
 
         this.sliderPositionObserver.subscribe(this.time.update.bind(this));
+        this.sliderWidthObserver.subscribe(this.time.update.bind(this));
+
         this.timestamp.update.call(this);
 
         this.bar = {
@@ -144,9 +147,12 @@ class ProgressBar {
             this.slider.el.style.width = `${px}px`;
             // updates the slider boundaries inside the animationFrame 'cause it's called asyncly
             this.slider.boundaries = this.getBoundaries(this.slider.el);
-            this.time.end = this.time.start + parseInt(this.time.duration);
-            this.timers.endTimeSection.updateTime(this.time.end);
+
+            // this.time.end = this.time.start + parseInt(this.time.duration);
             this.time.duration = parseInt(seconds);
+            
+            this.sliderWidthObserver.notify();
+            this.timers.endTimeSection.updateTime(this.time.end);
         };
         requestAnimationFrame(action);
     }
